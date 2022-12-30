@@ -39,8 +39,8 @@ function addGamesToPage(games) {
         // about each game
         // TIP: if your images are not displaying, make sure there is space
         // between the end of the src attribute and the end of the tag ("/>")
-        gameCard.innerHTML = 
-        `<img src=${game.img} class="game-img" />
+        gameCard.innerHTML =
+            `<img src=${game.img} class="game-img" />
         <strong>${game.name}</strong>
         <p>${game.description}</p>
         <p>Backers: ${game.backers}</p>`
@@ -77,7 +77,8 @@ raisedCard.innerText = `$${totalMoneyPledged.toLocaleString("en-US")}`
 
 // grab number of games card and set its inner HTML
 const gamesCard = document.getElementById("num-games");
-gamesCard.innerHTML = GAMES_JSON.length;
+const totalGames = GAMES_JSON.length;
+gamesCard.innerHTML = totalGames.toLocaleString()
 
 /*************************************************************************************
  * Challenge 5: Add functions to filter the funded and unfunded games
@@ -138,12 +139,19 @@ allBtn.addEventListener("click", showAllGames);
 const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
-
+let unfundedCount = GAMES_JSON.filter((game) => game.pledged < game.goal).length;
 
 // create a string that explains the number of unfunded games using the ternary operator
-
+const gameDisplay = unfundedCount == 1 ? "game" : "games";
+const remainDisplay = unfundedCount == 1 ? "remains" : "remain";
+const displayStr = `A total of $${totalMoneyPledged.toLocaleString('en-US')} has been raised for 
+${totalGames.toLocaleString('en-US')} ${gameDisplay}. Currently, ${unfundedCount.toLocaleString('en-US')} 
+${gameDisplay} ${remainDisplay} unfunded. We need your help to fund these amazing games!`
 
 // create a new DOM element containing the template string and append it to the description container
+const fundDisplay = document.createElement("p");
+fundDisplay.innerHTML = displayStr;
+descriptionContainer.appendChild(fundDisplay);
 
 /************************************************************************************
  * Challenge 7: Select & display the top 2 games
